@@ -1,0 +1,314 @@
+(***********************************************************************
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used on any computer system with Mathematica 3.0,
+MathReader 3.0, or any compatible application. The data for the notebook 
+starts with the line of stars above.
+
+To get the notebook into a Mathematica-compatible application, do one of 
+the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing the 
+word CacheID, otherwise Mathematica-compatible applications may try to 
+use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+***********************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     11023,        253]*)
+(*NotebookOutlinePosition[     11918,        282]*)
+(*  CellTagsIndexPosition[     11874,        278]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+Cell[TextData[{
+  StyleBox[
+  "Instructions:\nTo produce Generalized Koch snowflakes:  Use:\n\
+QKoch[insids_, pattern_, stgs_] ; where insids is the number of the initial \
+sides, pattern is the desired  generator and stgs is the number of stages.\n\n\
+Try for Example:\n\t", "Subsubtitle"],
+  StyleBox[
+  "QKoch[11, {0,-9,-7,-5,-3,-1,0},2]\t\n          QKoch[10, \
+{0,-9,-7,-5,-3,-1,0},3]\t\t", "Section"]
+}], "Input",
+  FormatType->TextForm],
+
+Cell[BoxData[
+    \(\(InitShapeDraw := \ 
+      \((\n\t\tstage\  = \ 0; \n\t\tnv\  = \ sides; \n\t\tpts\  = \ {}; \n\t\t
+        scl\  = \ 1; \n\t\t
+        Do[\tIf[i == 0, \[OSlash]\  = \(-2\)*i*Pi\ /\ sides; \n\t\t\t
+            AppendTo[pts, 
+              \ {scl\ *\ Cos[\[OSlash]]\ , \ scl\ *Sin[\[OSlash]]}]; ]; \n
+          \t\t\t\(If[i > 0, \[OSlash]\  = \(-2\)*i*Pi\ /\ sides; \n\t\t\t\t
+            AppendTo[
+              pts, {\(pts[\([i]\)]\)[\([1]\)] + scl*Cos[\[OSlash]], 
+                \(pts[\([i]\)]\)[\([2]\)] + scl*Sin[\[OSlash]]}]; ]; \)\n
+          \t\t, \ {i, \ 0, \ sides - 1}]\ ; \n\t\t
+        Show[Graphics[{AbsolutePointSize[1], Line[pts], \ 
+              Line[{pts[\([1]\)], \ pts[\([sides]\)]}]\ }], \ 
+          AspectRatio -> Automatic\ ]; \n\t\tnv\  = \ sides; \n\n\n\t\t
+        Clear[\[CapitalDelta]\[OSlash], \[OSlash]]; \n\t)\)\n\)\)], "Input"],
+
+Cell[BoxData[
+    \(QInitShapeDraw := \ 
+      \((\n\t\tstage\  = \ 0; \n\t\tnv\  = \ sides; \n\t\tpts\  = \ {}; \n
+        \t\t\tscl\  = \ 1; \n\t\t
+        Do[\tIf[i == 0, \[OSlash]\  = \(-2\)*i*Pi\ /\ sides; \n\t\t\t
+            AppendTo[pts, 
+              \ {scl\ *\ Cos[\[OSlash]]\ , \ scl\ *Sin[\[OSlash]]}]; ]; \n
+          \t\t\t\(If[i > 0, \[OSlash]\  = \(-2\)*i*Pi\ /\ sides; \n\t\t\t\t
+            AppendTo[
+              pts, {\(pts[\([i]\)]\)[\([1]\)] + scl*Cos[\[OSlash]], 
+                \(pts[\([i]\)]\)[\([2]\)] + scl*Sin[\[OSlash]]}]; ]; \)\n
+          \t\t, \ {i, \ 0, \ sides - 1}]\ ; \n\t\t
+        Show[Graphics[{AbsolutePointSize[1], Line[pts], \ 
+              Line[{pts[\([1]\)], \ pts[\([sides]\)]}], \ 
+              Point[pts[\([1]\)]]\ }], \ AspectRatio -> Automatic\ ]; \n\t)
+        \)\)], "Input"],
+
+Cell[BoxData[
+    \(InitVectors := 
+      \((\n\tvecset = {}; \n\t
+        Do[\ If[i == 1, \(AppendTo[vecset, pts[\([1]\)]]; \)]; \n\t\t\t
+          \(If[i > 1, \(AppendTo[vecset, pts[\([i]\)] - pts[\([i - 1]\)]]; 
+            \)]; \)\n\t\t\t, {i, 1, nv}]; \n\t\t)\)\)], "Input"],
+
+Cell[BoxData[
+    \(SideIdent\  := \ 
+      \((\n\t\tsidid\  = \ {}; \n\t\tsids\  = \ {}; \n\t\t
+        Do[\tIf[i\  < \ sides, \ 
+            \[CapitalDelta]x[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([1]\)]\  - \ 
+                  \(pts[\([i + 1]\)]\)[\([1]\)]]; \n\t\t\t\t\t
+            \[CapitalDelta]y[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([2]\)]\  - \ 
+                  \(pts[\([i + 1]\)]\)[\([2]\)]]; \ ]; \n\t\t\t
+          If[i\  == \ sides, \ 
+            \[CapitalDelta]x[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([1]\)]\  - \ \(pts[\([1]\)]\)[\([1]\)]]; \n
+            \t\t\t\t\t
+            \[CapitalDelta]y[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([2]\)]\  - \ \(pts[\([1]\)]\)[\([2]\)]]; 
+            \ ]; \n\t\t\tAppendTo[sidid, \ Mod[i, \ sides]]; \n\t\t\t
+          \(AppendTo[sids, 1]; \)\n\t\t\t, {i, 1, sides}]\n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(QSideIdent\  := \ 
+      \((\n\t\tsidid\  = \ {}; \n\t\tsids\  = \ {}; \n\t\t
+        Do[\tIf[i\  < \ sides, \ 
+            \[CapitalDelta]x[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([1]\)]\  - \ 
+                  \(pts[\([i + 1]\)]\)[\([1]\)]]; \n\t\t\t\t\t
+            \[CapitalDelta]y[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([2]\)]\  - \ 
+                  \(pts[\([i + 1]\)]\)[\([2]\)]]; \ ]; \n\t\t\t
+          If[i\  == \ sides, \ 
+            \[CapitalDelta]x[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([1]\)]\  - \ \(pts[\([1]\)]\)[\([1]\)]]; \n
+            \t\t\t\t\t
+            \[CapitalDelta]y[Mod[i, \ sides]]\  = \ 
+              N[\(pts[\([i]\)]\)[\([2]\)]\  - \ \(pts[\([1]\)]\)[\([2]\)]]; 
+            \ ]; \n\t\t\tAppendTo[sidid, \ Mod[i, \ sides]]; \n\t\t\t
+          \(AppendTo[sids, 1]; \)\n\t\t\t, \ {i, 1, sides}]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\(ObInfo := 
+          \((\n\t\tpat\  = \ {}; \n\t\tpats\  = \ {}; \n\t\t\t
+            AppendTo[pat, \ Abs[p]]; \n\t\t\t
+            If[\ p\  < \ 0, \ \(AppendTo[pats, \ \(-1\)]; \)]; \n\t\t\t
+            \(If[p\  >= \ 0, \ \(AppendTo[pats, \ 1]; \)]; \)\n\t\t\t, 
+            \ {i, \ 1, \ np}\)]\); \n\t\tpatt\  = \ \((pat*pats)\); \n\t\t
+      Print["\<Pattern: \>", \ patt]; \n\t\tstage\  = \ 1; \n\t\t
+      scl\  = \ scl\ /\ np; \n)\)\n\)\)], "Input"],
+
+Cell[BoxData[
+    \(QObInfo := \ 
+      \((\n\t\tpat\  = \ {}; \n\t\tpats\  = \ {}; \n\t\t
+        Do[p\  = \ patt[\([i]\)]; \n\t\t\tAppendTo[pat, \ Abs[p]]; \n\t\t\t
+          If[\ p\  < \ 0, \ \(AppendTo[pats, \ \(-1\)]; \)]; \n\t\t\t
+          \(If[p\  >= \ 0, \ \(AppendTo[pats, \ 1]; \)]; \)\n\t\t\t, 
+          \ {i, \ 1, \ np}]; \n\t\t\t\tPrint["\<Sides: \>", sides]; \n\t\t
+        Print["\<Pattern: \>", \ patt]; \n\t\tstage\  = \ 1; \n\t\t
+        scl\  = \ scl\ /\ np; \n\t\tClear[patt, p]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(Dim := 
+      \((\n\t\tnum = np; \n\t\tvect = {0, 0}; \n\t\t
+        Do[\(vect = vect + pats[\([i]\)]*vecset[\([pat[\([i]\)] + 1]\)]; \)\n
+          \t\t\t\t\t\t, {i, 1, num}]; \n\t\tf = \@\(vect . vect\); \n\ \ \ \ 
+        fracdim := Log[num]\/Log[f]\t; \n\t\t
+        Print["\<Snowflake Dimension =\>", N[fracdim]]; \n\t\t)\)\)], "Input"],
+
+Cell[BoxData[
+    \(SideCalc := \ 
+      \((\n\t\tnsidid\  = \ {}; \n\t\tnsids\  = \ {}; \n\t\t
+        Do[\n\t\t\t
+          \(Do[AppendTo[nsidid, \ 
+              Mod[\((sidid[\([j]\)]\  + \ \ pat[\([i]\)])\), \ sides]]; \n
+            \t\t\t\ \ \ \ 
+            \(AppendTo[nsids, \ \((sids[\([j]\)]*pats[\([i]\)])\)]; \)\n
+            \t\t\t, \ {i, \ 1, \ np}]; \)\n\t\t, \ {j, \ 1, \ nv}]; \n\t\t
+        sidid\  = \ nsidid; \n\t\tsids\  = \ nsids; \n\t\t
+        Clear[nsidid, \ nsids]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(PointFind\  := \ 
+      \((\n\t\tnpts\  = \ {\ }; \n\t\ts\  = \ 1; \n\t\t
+        x1\  = \ \(pts[\([1]\)]\)[\([1]\)]; \n\t\t
+        y1\  = \ \(pts[\([1]\)]\)[\([2]\)]; \n\t\tAppendTo[npts, \ {x1, y1}]; 
+        \n\t\tDo[\n\t\t\t
+          \(Do[k\  = \ 
+              scl\ /\ Sqrt[
+                  \((\[CapitalDelta]x[sidid[\([s]\)]])\)^2\  + \ 
+                    \((\[CapitalDelta]y[sidid[\([s]\)]])\)^2]; \n\t\t\t
+            If[sids[\([s]\)]\  == \ \(-1\), \n\t\t\t\t
+              x2\  = \ x1\  + \ k*\[CapitalDelta]x[sidid[\([s]\)]]; \n\t\t\t\t
+              y2\  = \ y1\  + \ k*\[CapitalDelta]y[sidid[\([s]\)]]; ]; \n
+            \t\t\tIf[sids[\([s]\)]\  == \ 1, \n\t\t\t\t
+              x2\  = \ x1\  - \ k*\[CapitalDelta]x[sidid[\([s]\)]]; \n\t\t\t\t
+              y2\  = \ y1\  - \ k*\[CapitalDelta]y[sidid[\([s]\)]]; ]; \n
+            \t\t\tAppendTo[npts, \ {x2, y2}]; \n\t\t\tx1\  = \ x2; \n\t\t\t
+            y1\  = \ y2; \n\t\t\t\(s\  = \ s\  + \ 1; \)\n
+            \t\t\t, {i, \ 1, \ np}]; \)\n\t\t, {j, \ 1, \ nv}]; \n\t
+        pts\  = \ npts; \n\tClear[k, x1, x2, y1, y2, s, npts]; \n)\)\)], 
+  "Input"],
+
+Cell[BoxData[
+    \(\(DrawIt\  := \n\t\t
+      Show[Graphics[{AbsolutePointSize[1], Line[pts]}], \ 
+        AspectRatio -> Automatic]; \)\)], "Input"],
+
+Cell[BoxData[
+    \(Repeater := \ 
+      \((\n\t\tgoon\  = \ Input["\<Would you like to go on? (Y or N)\>"]; \n
+        \t\tWhile[goon\  == \ Y, \ SideCalc; \n\t\t\t\tPointFind; \n\t\t\t\t
+          DrawIt; \n\t\t\t\tValueChk; \n\t\t\t\tNextStage; \n\t\t\t\t
+          goon\  = \ Input["\<Would you like to go on? (Y or N)\>"]; \ ]; \n
+        \t\tClear[goon]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(NextStage\  := \ 
+      \((\n\t\tstage\  = \ stage\  + \ 1; \n\t\tnv\  = \ nv\ *\ np; \n\t\t
+        scl\  = \ scl\ /\ np; \n)\)\)], "Input"],
+
+Cell[BoxData[""], "Input"],
+
+Cell[BoxData[
+    \(Koch := \ 
+      \((\n\t\tInitShapeDraw; \n\t\tInitVectors; \n\t\tSideIdent; \n\t\t
+        ObInfo; \n\t\tDim; \n\t\tClear[patt, p]; \n\t\tSideCalc; \n\t\t
+        PointFind; \n\t\tDrawIt; \n\t\tValueChk; \n\t\t
+        NextStage\n\t\tRepeater; \n\t\t
+        Clear[nv, sides, pts, scl, sidid, sids, pat, pats, np, stage, num, 
+          vect, vecset, f, fracdim]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(QKoch[insids_, \ pattern_, \ stgs_]\  := \ 
+      \((\n\tsides\  = \ insids; \n\t\t\tpatt\  = \ pattern; \n\t\t\t
+        np\  = Length[patt]; \n\n\tdestage\  = \ stgs; \n\tQInitShapeDraw; \n
+        \tInitVectors; \n\tQSideIdent; \n\tQObInfo; \n\t\t\n\tDim; \n\t
+        Do[\tSideCalc; \n\t\tPointFind; \n\t\tDrawIt; \n\t\t\(NextStage; \)\n
+          \t\t, {z, 1, destage}]; \n\t\t
+        Clear[nv, sides, pts, scl, sidid, sids, pat, pats, np, stage, num, 
+          vect, vecset, f, fracdim]; \n)\)\)], "Input"],
+
+Cell[BoxData[
+    \(QKoch[11, \ {0, \(-9\), \(-7\), \(-5\), \(-3\), \(-1\), 0}, 2]\)], 
+  "Input"],
+
+Cell[BoxData[
+    \(QKoch[10, \ {0, \(-9\), \(-7\), \(-5\), \(-3\), \(-1\), 0}, 3]\)], 
+  "Input"],
+
+Cell[BoxData[
+    \(QKoch[11, \ {0, \(-9\), \(-7\), \(-5\), \(-3\), \(-1\), 0}, 3]\)], 
+  "Input"]
+},
+FrontEndVersion->"Macintosh 3.0",
+ScreenRectangle->{{0, 1024}, {0, 748}},
+WindowSize->{449, 476},
+WindowMargins->{{142, Automatic}, {Automatic, 6}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+MacintoshSystemPageSetup->"\<\
+00`0004/0B`0000036`9H?o4ol@<Z0Vj89H5:0?l0040004/0B`0000036`9H04/
+0309H0040480000000000BL?004000692Y000000000000@0@04nP0000000501T
+D51<:b00ool00@01olCoa0bX2KX0h000\>"
+]
+
+
+(***********************************************************************
+Cached data follows.  If you edit this Notebook file directly, not using
+Mathematica, you must remove the line containing CacheID at the top of 
+the file.  The cache data will then be recreated when you save this file 
+from within Mathematica.
+***********************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+Cell[1709, 49, 443, 10, 193, "Input"],
+Cell[2155, 61, 883, 15, 331, "Input"],
+Cell[3041, 78, 831, 15, 251, "Input"],
+Cell[3875, 95, 279, 5, 107, "Input"],
+Cell[4157, 102, 924, 17, 219, "Input"],
+Cell[5084, 121, 929, 17, 219, "Input"],
+Cell[6016, 140, 481, 8, 219, "Input"],
+Cell[6500, 150, 520, 8, 235, "Input"],
+Cell[7023, 160, 361, 6, 213, "Input"],
+Cell[7387, 168, 510, 10, 203, "Input"],
+Cell[7900, 180, 1145, 20, 379, "Input"],
+Cell[9048, 202, 150, 3, 59, "Input"],
+Cell[9201, 207, 379, 6, 203, "Input"],
+Cell[9583, 215, 161, 3, 91, "Input"],
+Cell[9747, 220, 26, 0, 27, "Input"],
+Cell[9776, 222, 403, 7, 283, "Input"],
+Cell[10182, 231, 534, 8, 347, "Input"],
+Cell[10719, 241, 98, 2, 27, "Input"],
+Cell[10820, 245, 98, 2, 27, "Input"],
+Cell[10921, 249, 98, 2, 27, "Input"]
+}
+]
+*)
+
+
+
+
+(***********************************************************************
+End of Mathematica Notebook file.
+***********************************************************************)
+
