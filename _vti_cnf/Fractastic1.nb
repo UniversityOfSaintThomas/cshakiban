@@ -1,0 +1,7 @@
+vti_encoding:SR|utf8-nl
+vti_timelastmodified:TR|02 Mar 2003 04:35:20 -0000
+vti_extenderversion:SR|5.0.2.6790
+vti_lineageid:SR|{0A0833B5-499D-4C21-B18E-C2AC109F33B0}
+vti_cacheddtm:TX|02 Mar 2003 04:35:20 -0000
+vti_filesize:IR|13212
+vti_backlinkinfo:VX|cshakiban/MMA.HTML
